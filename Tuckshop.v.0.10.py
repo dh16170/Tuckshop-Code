@@ -18,8 +18,8 @@ place = 0
 finalprice_number = 0
 sumprice = 0
 
-def clear():
-    list = foodoptionframe.place_slaves()
+def clear():  # This module runs each time one of the main buttons are pressed to clear the window before displaying
+    list = foodoptionframe.place_slaves() # the next labels and buttons
     for l in list:
         l.destroy()
 
@@ -29,8 +29,7 @@ def clear():
 
 
 
-def menu():
-    print("running menu")
+def menu():     # a main button which can be changed if they wanted to update and have a main menu
     clear()
 
     menu_mainlabel1 = Label(foodoptionframe, bg='black', fg="blue", text="Choose an option of what food you would like to eat", font=('bold', '30'))
@@ -38,8 +37,7 @@ def menu():
 
 
 
-def hot_food():
-    print("running hot_food")
+def hot_food():     #Displays all hotfood buttons and labels - runs each time I press hot food button at the top
     clear()
     subs = StringVar(root)
     subslist = ['Chicken', 'Meatball', 'Pork Riblet']
@@ -128,7 +126,8 @@ def hot_food():
     subsoptions.place(relx=0, rely=0, relheight=0, relwidth=0)
 
 
-
+# all the next functions are all the hot food functions for when this corasponding buttons is pressed making the food
+#variable = the name and price as a tuple
 def paniniadd():
     global food
     food = ("Panini", '3.50')
@@ -145,19 +144,22 @@ def wedgesadd():
     quantity()
 
 def subschoose():
+    # This whole function was the main one as a structure to how all the other option menu functions should work
+    # The exact same format is copied into all the other drop down menu functons
+
     subs = StringVar()
     subsprice = StringVar()
     subslist = [("Meatball-Sub", '3.50'), ("Chicken-Sub", '3.50'), ("Pork-Riblet", '3.50')]
     subs.set(subslist[0][0])
     subsprice.set(subslist[0][1])
-    optionsubsname1 = subslist[0][0]
+    optionsubsname1 = subslist[0][0]   #Gives the names for all the options used later on
     optionsubsname2 = subslist[1][0]
     optionsubsname3 = subslist[2][0]
 
 
 
 
-    subschoice = Canvas(foodoptionframe, width=300, height=200)
+    subschoice = Canvas(foodoptionframe, width=300, height=200) # creates a small window for the options of the dropdown menu
     subschoice.pack()
 
     def deleteboxsubs():
@@ -167,15 +169,15 @@ def subschoose():
         value = subsprice.get()
         subsname = subs.get()
 
-        if subsname == 'Meatball-Sub':
-            food = (optionsubsname1, value)
+        if subsname == 'Meatball-Sub':   #all the if statements which choose which one was chosen to write food in
+            food = (optionsubsname1, value)   #correctly
         elif subsname == "('Chicken-Sub', '3.50')":
             food = (optionsubsname2, value)
         elif subsname == "('Pork-Riblet', '3.50')":
             food = (optionsubsname3, value)
 
-        try:
-            subschoice.destroy()
+        try:            # try and except loop to make sure the program keeps running if there are any proelems
+            subschoice.destroy() #closing the window autoatically using .destory()
             quantity()
         except:
             pass
@@ -320,8 +322,7 @@ def bageladd():
 
 
 
-def cold_food():
-    print("running cold_food")
+def cold_food(): #Same functions as hot_food() except it writes in all the cold options as labels and buttons
     clear()
 
     #*****Cold Food Labels*****
@@ -376,6 +377,7 @@ def cold_food():
     htsrollbutton = Button(foodoptionframe, text='Add', command=cmsrolladd)
     htsrollbutton.place(relx=0.847326, rely=0.57, relheight=0.05, relwidth=0.1)
 
+#next functions all do the same, initilising food
 
 def sandwichesadd():
     global food
@@ -419,7 +421,7 @@ def htsrolladd():
 
 
 
-def drinks():
+def drinks():  #Labels of drinks and buttons
     print("running drinks")
     clear()
 
@@ -1049,17 +1051,17 @@ def vegechipschoose():
 
 def danishadd():
     global food
-    food = ("Chocolate Danish", '3.50')
+    food = ("Chocolate-Danish", '3.50')
     quantity()
 
 def cookieadd():
     global food
-    food = ("Mrs Higgins Cookie", '3.00')
+    food = ("Mrs-Higgins-Cookie", '3.00')
     quantity()
 
 def brownieadd():
     global food
-    food = ("Chocolate Brownie", '3.00')
+    food = ("Chocolate-Brownie", '3.00')
     quantity()
 
 def muffinsadd():
@@ -1075,7 +1077,8 @@ def sliceadd():
 
 
 def quantity():
-
+    #Running this function creates its own canvas, displaying the quantity that will be added along with buttons to incrase
+    # and decrease the quantity
     global current_amount
     global food
     global cross
@@ -1088,7 +1091,7 @@ def quantity():
         amount_down.configure(state="normal")
         current_amount += 1
         amountlabel.configure(text=current_amount)
-        if current_amount == 5:
+        if current_amount == 5:                     #disabling the button at 5 as that will be the max that you can add
             amount_up.configure(state="disable")
         amountlabel.configure(text=current_amount)
 
@@ -1096,13 +1099,13 @@ def quantity():
         global current_amount
         current_amount -= 1
         if current_amount == 1:
-            amount_down.configure(state="disable")
+            amount_down.configure(state="disable")     #disabling the button so it cant go below zero
         amountlabel.configure(text=current_amount)
 
     def comfirming_quantity():
         global food
         global cart
-        if len(cart) >= 9:
+        if len(cart) >= 9:        # if the cart has more than 9 items it wont add this one to it as nine is too many
             addingprice()
             printorder()
             delete()
@@ -1111,7 +1114,7 @@ def quantity():
             addingprice()
             printorder()
             delete()
-        elif food in cart:
+        elif food in cart:  # runs if this item is already in the basket so it ads on top of what its current quantity is
             cart[food]+=current_amount
             addingprice()
             printorder()
@@ -1150,7 +1153,8 @@ def quantity():
     deletebutton = Button(amount, text='x', command=delete)
     deletebutton.place(relx=0.9, rely=0.05, relheight=0.1, relwidth=0.1)
 
-def addingprice():
+def addingprice(): # this function adds up the final price by adding all the items in the cart and multiplying by
+    # its quantity then adding it to the final price label
     global cart
     global item
     global price
@@ -1161,29 +1165,31 @@ def addingprice():
     global cartquantity
     global basket_list
     global key
-    basket_list = []
-    pricelist = []
+    basket_list = []  #making this list empty so It dosent add the quantities twice if the module is run twice
+    pricelist = []  # same as above
     finalprice_number = 0
-    for key in cart:
+    for key in cart:       #appening all the keys to this list as they are currenlty in a dictonary
         basket_list.append(key)
 
-    for i in range (len(basket_list)):
+    for i in range (len(basket_list)):  # this looks runs so that for each item in my list for the new items in the
+        # cart, it will run and pick out the price and multiply by the quantity. It later adds to the full price which
         finalprice_number = 0
         sumprice = 0
         item = basket_list[i][0]
         price = float(basket_list[i][1])
         cartquantity = cart[basket_list[i]]
         sumprice = price*cartquantity
-        pricelist.append(sumprice)
+        pricelist.append(sumprice)   # addinf the new amount on top of what was orginally the full price
 
-    finalprice_number = sum(pricelist)
+    finalprice_number = sum(pricelist)      #confguring the label displaying the price
     finalprice.configure(text=('$' + str(('%.2f' % finalprice_number))))
 
 def printorder():
     global cart
     global changelist
     n=0
-    for i in range(len(basket_list)):
+    for i in range(len(basket_list)):  # this loop runs so that it will displau every item in my order, the cost of it
+        # and update every time something is added on top of it.
         key = basket_list[i]
         cartquantity = cart[key]
         foodname = Label(foodframe, text = key )
@@ -1191,9 +1197,9 @@ def printorder():
         foodquantity =Label(quantityframe, text = cartquantity )
         foodquantity.place(relx=0.01, rely=n, relwidth=0.99, relheight=0.1)
 
-        n += 0.1
+        n += 0.1  # moves the next thing in the list down by one so it can fit a new label in the order list frame
 
-def printorderfinal():
+def printorderfinal():   #finally prints a statement stating the list of all items and the price below it
     global cart
     global finalprice_number
     print (cart)
